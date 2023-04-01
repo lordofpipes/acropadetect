@@ -1,0 +1,137 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="vendor/pico.css" />
+
+		<title>Acropalypse Image Corruption Detector</title>
+	</head>
+
+	<body>
+		<header class="container">
+            <nav>
+                <ul>
+                    <li><strong><h1>Acropalypse Image Trailing Data Detector</h1></strong></li>
+                </ul>
+
+                <ul>
+                    <li>
+                        <a href="#" id="theme-switcher" data-tooltip="os theme">
+                            <svg class="os-default" viewBox="0 0 16 16"><path fill="currentColor" d="M8 15A7 7 0 1 0 8 1v14zm0 1A8 8 0 1 1 8 0a8 8 0 0 1 0 16z"/></svg>
+                            <svg class="light-mode" style="display: none;" viewBox="0 0 16 16"><path fill="currentColor" d="M8 11a3 3 0 1 1 0-6a3 3 0 0 1 0 6zm0 1a4 4 0 1 0 0-8a4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"/></svg>
+                            <svg class="dark-mode" style="display: none;" viewBox="0 0 16 16"><g fill="currentColor"><path d="M6 .278a.768.768 0 0 1 .08.858a7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277c.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316a.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71C0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278zM4.858 1.311A7.269 7.269 0 0 0 1.025 7.71c0 4.02 3.279 7.276 7.319 7.276a7.316 7.316 0 0 0 5.205-2.162c-.337.042-.68.063-1.029.063c-4.61 0-8.343-3.714-8.343-8.29c0-1.167.242-2.278.681-3.286z"/><path d="M10.794 3.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387a1.734 1.734 0 0 0-1.097 1.097l-.387 1.162a.217.217 0 0 1-.412 0l-.387-1.162A1.734 1.734 0 0 0 9.31 6.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387a1.734 1.734 0 0 0 1.097-1.097l.387-1.162zM13.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0 1 0 .274l-.774.258a1.156 1.156 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.156 1.156 0 0 0-.732-.732l-.774-.258a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732L13.863.1z"/></g></svg>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+		</header>
+
+
+        <main class="container">
+            <p>This tool can detect CVE-2023-21036 (Acropalypse) vulnerable image files, and highlights the images that are vulnerable out of a large collection of uploaded files</p>
+            <p>It runs entirely offline, nothing is uploaded to a server.</p>
+
+            <article class="upload">
+                <form>
+                    <label for="file-picker" id="file-picker-label">Drop image files to check here (<code>.png</code>, <code>.jpg</code>, <code>.avif</code>, or <code>.webp</code>)
+                        <input type="file" id="file-picker" name="file" multiple="multiple" class="button" />
+                    </label>
+                    <div class="grid">
+                        <label for="threshold-picker">Threshold of extra data (bytes):
+                            <input type="number" id="threshold-picker" value="1" min="1" max="4194304" />
+                        </label>
+                        <label for="threads-picker">Worker threads:
+                            <input type="number" id="threads-picker" value="4" min="1" max="32" />
+                        </label>
+                    </div>
+                </form>
+                <footer style="display: none" id="results-footer">
+                    <progress class="progress" value="0" max="100"></progress>
+                    <div class="currently-processing" />
+                </footer>
+            </article>
+
+            <article id="output" style="display: none;">
+                <header><strong>Summary</strong></header>
+                <p class="output-text"></p>
+                <pre class="output-code"></pre>
+            </article>
+
+            <div id="images" style="display: none;">
+            </div>
+
+            <article>
+                <h6>This tool is released under The Zero-Clause BSD License.</h6>
+
+                <p>Copyright &copy; 2023 lordpipe</p>
+
+                <p>Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.</p>
+
+                <p>
+                    The software is provided "AS IS" and the author disclaims all warranties
+                    with regard to this software including all implied warranties of
+                    merchantability and fitness. In no event shall the author be liable for
+                    any special, direct, indirect, or consequential damages or any damages
+                    whatsoever resulting from loss of use, data or profits, whether in
+                    an action of contract, negligence or other tortious action, arising out
+                    of or in connection with the use or performance of this software.
+                </p>
+
+                <p><strong>Other open source notices</strong></p>
+
+                <p>Copyright &copy; 2019-2023 Pico - <a href="https://github.com/picocss/pico/blob/master/LICENSE.md">Pico.css - MIT license</a></p>
+        </main>
+
+		<style>
+
+html {
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+#theme-switcher svg
+{
+  width: 2em;
+  height: 2em;
+  color: var(--contrast);
+}
+#file-picker {
+    padding-top: 10px;
+}
+#file-picker-label
+{
+    cursor: pointer;
+    font-size: 1.25rem;
+    position: relative;
+    padding: 100px 50px;
+    outline: 2px dashed;
+    outline-offset: -10px;
+    transition: outline-offset .15s ease-in-out, background-color .15s linear;
+}
+#file-picker
+{
+    width: 100%;
+    fill: #92b0b3;
+    display: block;
+}
+
+nav h1 {
+    padding: 0;
+    margin: 0;
+}
+
+.upload input, .upload form {
+    margin: 0;
+}
+
+.container {
+    padding-bottom: 20px;
+    padding-top: 20px;
+}
+		</style>
+        <script type="text/javascript" src="lib/dist/main.js"></script>
+	</body>
+</html>
