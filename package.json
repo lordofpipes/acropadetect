@@ -1,0 +1,36 @@
+{
+  "name": "acropadetect",
+  "version": "1.0.0",
+  "description": "Tool for detecting acropalypse",
+  "main": "main.js",
+  "scripts": {
+    "ts": "tsc --declaration",
+    "watch:ts": "tsc -w --declaration",
+    "watch:bundle": "rollup -c rollup.config.mjs -w",
+    "bundle": "rollup -c rollup.config.mjs",
+    "grab-vendor-assets": "node build.js",
+    "build": "npm run ts && npm run bundle && npm run grab-vendor-assets",
+    "prepublish": "npm run build"
+  },
+  "author": "",
+  "license": "0BSD",
+  "devDependencies": {
+    "@picocss/pico": "^1.5.7",
+    "@rollup/plugin-terser": "^0.4.0",
+    "@rollup/plugin-typescript": "^11.0.0",
+    "@zip.js/zip.js": "^2.6.83",
+    "eslint": "^8.37.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "prettier": "^2.8.7",
+    "rollup": "^3.20.2",
+    "rollup-plugin-polyfill-node": "^0.12.0",
+    "tslib": "^2.5.0",
+    "typescript": "^4.9.5"
+  },
+  "dependencies": {
+    "@rollup/plugin-node-resolve": "^15.0.1",
+    "@types/node": "^18.15.11"
+  },
+  "type": "module"
+}

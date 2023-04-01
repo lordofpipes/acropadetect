@@ -1,0 +1,35 @@
+{
+    "compilerOptions": {
+        "target": "es2022",
+        "moduleResolution": "node",
+        "sourceMap": true,
+        "baseUrl": ".",
+        "outDir": "lib",
+        "paths": {
+            "*": [
+                "node_modules/*",
+                "src/types/*"
+            ]
+        },
+        "lib": ["ES2020", "DOM"],
+
+        "incremental": true,
+
+        "traceResolution": false,
+        "listEmittedFiles": false,
+        "listFiles": false,
+        "pretty": true,
+        "declaration": true
+    },
+    "include": [
+        "./src/**/*"
+    ],
+    "paths": {
+        "*": [
+            "node_modules/*",
+            "src/**/@types/*",
+            "src/@types/*"
+        ]
+    }
+}
+
